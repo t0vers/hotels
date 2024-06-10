@@ -14,13 +14,15 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   app:
-    build: .
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
     depends_on:
       - db
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: postgresql://postgres:1q2w3e4r5t!Q@postgres:5432/hotels
+      DATABASE_URL: postgresql+asyncpg://postgres:1q2w3e4r5t!Q@postgres:5432/hotels
 
 volumes:
   postgres_data:
