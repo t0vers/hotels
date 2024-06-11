@@ -1,9 +1,9 @@
 version: "3.8"
 services:
-  db:
+  user-db:
     image: postgres
     restart: always
-    hostname: postgres
+    hostname: user-postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1q2w3e4r5t!Q
@@ -11,19 +11,47 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - user_postgres_data:/var/lib/postgresql/data
 
-  app:
+  user-app:
     build:
       context: ./user-service
       dockerfile: Dockerfile
     depends_on:
-      - db
+      - user-db
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: postgresql+asyncpg://postgres:1q2w3e4r5t!Q@postgres:5432/hotels
+      DATABASE_URL: postgresql+asyncpg://postgres:1q2w3e4r5t!Q@user-postgres:5432/hotels
+
+  catalog-db:
+    image: postgres
+    restart: always
+    hostname: catalog-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1q2w3e4r5t!Q
+      POSTGRES_DB: hotel
+    ports:
+      - "5433:5433"
+    command:
+      - "postgres"
+      - "-c"
+      - "port=5433"
+    volumes:
+      - catalog_postgres_data:/var/lib/postgresql/data
+
+  catalog-app:
+    build:
+      context: ./catalog-service
+      dockerfile: Dockerfile
+    depends_on:
+      - catalog-db
+    ports:
+      - "8001:8001"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:1q2w3e4r5t!Q@catalog-postgres:5433/hotel
 
 volumes:
-  postgres_data:
-    name: postgres
+  user_postgres_data:
+  catalog_postgres_data:
