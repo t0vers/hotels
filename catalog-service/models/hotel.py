@@ -1,3 +1,7 @@
+from datetime import datetime
+from typing import Optional
+
+from pydantic import BaseModel
 from sqlalchemy import MetaData, Column, Integer, String, ForeignKey, DateTime, func
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import relationship, declarative_base, sessionmaker
@@ -36,3 +40,34 @@ class Booking(Base):
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
     room = relationship("Room", back_populates="bookings")
+
+
+class RoomCreate(BaseModel):
+    title: str
+    room_class: int
+    price: int
+
+class RoomRead(BaseModel):
+    id: int
+    title: str
+    room_class: int
+    price: int
+
+    class Config:
+        orm_mode: True
+
+class BookingCreate(BaseModel):
+    room_id: int
+    start_date: datetime
+    end_date: datetime
+
+class BookingRead(BaseModel):
+    id: int
+    room_id: int
+    start_date: datetime
+    end_date: datetime
+    created_at: datetime
+    updated_at: Optional[datetime]
+
+    class Config:
+        orm_mode: True
