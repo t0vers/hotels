@@ -11,7 +11,7 @@
             <mat-label>Введите пароль</mat-label>
             <input matInput formControlName="password" type="password" required>
         </mat-form-field>
-        <button mat-flat-button color="primary">Войти</button>
+        <button mat-flat-button color="primary" (click)="submit()">Войти</button>
         <div class="login__form-actions">
             <span style="color: white">Нет аккаунта?</span>
             <a>Регистрация</a>
