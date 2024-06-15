@@ -1,0 +1,35 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    outline: 1px solid #ffabf3;
+    padding: 50px;
+    border-radius: 32px;
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+        width: 300px;
+
+        &-actions {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            span {
+                white-space: nowrap;
+            }
+
+            a {
+                color: dodgerblue;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+mat-form-field, button {
+    width: 100%;
+}
