@@ -8,8 +8,8 @@ const routes: Routes = [
     },
     {
         path: '',
-        redirectTo: ''
-
+        redirectTo: 'auth',
+        pathMatch: 'full'
     }
 ];
 
