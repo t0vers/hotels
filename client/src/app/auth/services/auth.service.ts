@@ -25,4 +25,8 @@ export class AuthService {
                 }
             });
     }
+
+    public isAuth(): boolean {
+        return !!localStorage.getItem('token');
+    }
 }

@@ -8,10 +8,12 @@ import {AuthComponent} from "./auth.component";
 import {AuthRoutingModule} from "./auth-routing.module";
 import {AuthService} from "./services/auth.service";
 import {provideHttpClient} from "@angular/common/http";
+import {RegisterComponent} from "./components/register/register.component";
 
 @NgModule({
     declarations: [
         LoginComponent,
+        RegisterComponent,
         AuthComponent
     ],
     imports: [
