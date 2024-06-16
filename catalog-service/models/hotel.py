@@ -1,8 +1,8 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel
-from sqlalchemy import MetaData, Column, Integer, String, ForeignKey, DateTime, func
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, func, ARRAY
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import relationship, declarative_base, sessionmaker
 
@@ -25,6 +25,7 @@ class Room(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False)
     room_class = Column(Integer)
+    images = Column(ARRAY(String))
     price = Column(Integer)
     bookings = relationship("Booking", back_populates="room")
 
@@ -34,6 +35,7 @@ class Booking(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     room_id = Column(Integer, ForeignKey("room.id"), nullable=False)
+    user_id = Column(Integer, nullable=False)
     start_date = Column(DateTime, nullable=False)
     end_date = Column(DateTime, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
@@ -46,6 +48,8 @@ class RoomCreate(BaseModel):
     title: str
     room_class: int
     price: int
+    images: Optional[List[str]] = None
+
 
 class RoomRead(BaseModel):
     id: int

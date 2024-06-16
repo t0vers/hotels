@@ -1,31 +1,53 @@
-import uuid
 from typing import Optional
 
-from fastapi import Depends, Request
-from fastapi_users import BaseUserManager, IntegerIDMixin
+from fastapi import Request, Depends, requests
+from fastapi_users import BaseUserManager, fastapi_users, models, IntegerIDMixin
+from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
+from fastapi_users.authentication import JWTStrategy
+from httpx import AsyncClient
 
-from database.database import User, get_user_db
+from auth.auth import SECRET
+from auth.schemas import UserRead, UserCreate
+from database.database import get_user_db
 
-SECRET = "SECRET"
+conf = ConnectionConfig(
+    MAIL_USERNAME="srp-bez@mail.ru",
+    MAIL_PASSWORD="AR1R6nEzDbSX4AdnzJag",
+    MAIL_FROM="srp-bez@mail.ru",
+    MAIL_PORT=587,
+    MAIL_SERVER="smtp.mail.ru",
+    MAIL_STARTTLS=True,
+    MAIL_SSL_TLS=False,
+    USE_CREDENTIALS=True,
+)
+
+fast_mail = FastMail(conf)
 
 
-class UserManager(IntegerIDMixin, BaseUserManager[User, uuid.UUID]):
-    reset_password_token_secret = SECRET
+class UserManager(IntegerIDMixin, BaseUserManager[UserCreate, UserRead]):
     verification_token_secret = SECRET
+    reset_password_token_secret = SECRET
 
-    async def on_after_register(self, user: User, request: Optional[Request] = None):
-        print(f"User {user.id} has registered.")
+    async def on_after_register(self, user: UserRead, request: Request):
+        async with AsyncClient() as client:
+            response = await client.post(
+                f"{request.base_url}auth/request-verify-token",
+                json={"email": user.email}
+            )
+            response.raise_for_status()
 
-    # async def on_after_forgot_password(
-    #     self, user: User, token: str, request: Optional[Request] = None
-    # ):
-    #     print(f"User {user.id} has forgot their password. Reset token: {token}")
-    #
-    # async def on_after_request_verify(
-    #     self, user: User, token: str, request: Optional[Request] = None
-    # ):
-    #     print(f"Verification requested for user {user.id}. Verification token: {token}")
+    async def send_verify_message(self, email: str, token: str):
+        message = MessageSchema(
+            subject="Verify your email",
+            recipients=[email],
+            body=f"{token}",
+            subtype="html"
+        )
+        await fast_mail.send_message(message)
+
+    async def on_after_request_verify(self, user: UserRead, token: str, request: Request):
+        await self.send_verify_message(user.email, token)
 
 
-async def get_user_manager(user_db=Depends(get_user_db)):
+def get_user_manager(user_db=Depends(get_user_db)):
     yield UserManager(user_db)
