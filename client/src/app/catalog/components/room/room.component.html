@@ -14,7 +14,8 @@
         </p>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-stroked-button color="accent">Забронировать</button>
-<!--        <button mat-button>SHARE</button>-->
+        <button mat-stroked-button color="accent" (click)="openRoomPage(room.id)">
+            Забронировать
+        </button>
     </mat-card-actions>
 </mat-card>

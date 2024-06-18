@@ -1,3 +1,17 @@
 .catalog {
     margin-top: 30px;
+
+    &__list {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 15px
+    }
+}
+
+mat-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
 }

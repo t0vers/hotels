@@ -9,14 +9,22 @@ import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {CategoryGridComponent} from "./components/category/category-grid.component";
 import {MatChipsModule} from "@angular/material/chips";
-import {AsyncPipe} from "@angular/common";
+import {AsyncPipe, NgIf} from "@angular/common";
 import {RoomService} from "../core/services/room.service";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {RoomPageComponent} from "./components/room-page/room-page.component";
+import {MatFormField, MatFormFieldModule, MatHint, MatLabel} from "@angular/material/form-field";
+import {MatDatepicker, MatDatepickerModule, MatDatepickerToggle} from "@angular/material/datepicker";
+import {MatInput, MatInputModule} from "@angular/material/input";
+import {provideNativeDateAdapter} from "@angular/material/core";
+import {AuthService} from "../core/services/auth.service";
 
 @NgModule({
     declarations: [
         CatalogComponent,
         RoomComponent,
-        CategoryGridComponent
+        CategoryGridComponent,
+        RoomPageComponent
     ],
     imports: [
         ReactiveFormsModule,
@@ -25,11 +33,15 @@ import {RoomService} from "../core/services/room.service";
         MatCardModule,
         MatButtonModule,
         MatChipsModule,
-        AsyncPipe
+        AsyncPipe,
+        MatProgressSpinner,
+        MatFormFieldModule, MatInputModule, MatDatepickerModule, NgIf
     ],
     providers: [
         provideHttpClient(),
-        RoomService
+        provideNativeDateAdapter(),
+        RoomService,
+        AuthService
     ]
 })
 export class CatalogModule { }

@@ -13,11 +13,13 @@ import {IRoom} from "../core/interfaces/room.interface";
 export class CatalogComponent implements OnInit {
     public categories$!: Observable<ICategory[]>;
     public rooms$!: Observable<IRoom[]>
+    public isLoading$!: Observable<boolean>;
 
     constructor(private _roomService: RoomService) { }
 
     public ngOnInit(): void {
         this.categories$ = this._roomService.categories;
         this.rooms$ = this._roomService.rooms;
+        this.isLoading$ = this._roomService.isLoading;
     }
 }

@@ -4,12 +4,16 @@
             Каталог номеров
         </h2>
         <app-category-grid [categories$]="categories$"></app-category-grid>
-        <div class="catalog__list" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 15px">
-            @if ((rooms$ | async)?.length === 0) {
-                По заданным параметрам не найдено номеров
+        <div class="catalog__list">
+            @if (isLoading$ | async) {
+                <mat-spinner></mat-spinner>
             } @else {
-                @for (room of rooms$ | async; track room) {
-                    <app-room [room]="room"></app-room>
+                @if ((rooms$ | async)?.length === 0) {
+                    По заданным параметрам не найдено номеров
+                } @else {
+                    @for (room of rooms$ | async; track room) {
+                        <app-room [room]="room"></app-room>
+                    }
                 }
             }
         </div>
