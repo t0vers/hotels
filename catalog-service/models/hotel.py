@@ -6,7 +6,6 @@ from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, func, ARRA
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import relationship, declarative_base, sessionmaker
 
-
 SQLALCHEMY_DATABASE_URL = "postgresql+asyncpg://postgres:1q2w3e4r5t!Q@catalog-postgres:5433/hotel"
 
 Base = declarative_base()
@@ -19,12 +18,23 @@ async def get_session() -> AsyncSession:
     async with async_session_maker() as session:
         yield session
 
+
+class Category(Base):
+    __tablename__ = "category"
+
+    id = Column(Integer, primary_key=True, index=True)
+    value = Column(String, nullable=False)
+    rooms = relationship("Room", back_populates="category")
+
+
 class Room(Base):
     __tablename__ = "room"
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False)
-    room_class = Column(Integer)
+    category_id = Column(Integer, ForeignKey('category.id'))
+    description = Column(String)
+    category = relationship("Category", back_populates="rooms")
     images = Column(ARRAY(String))
     price = Column(Integer)
     bookings = relationship("Booking", back_populates="room")
@@ -46,7 +56,8 @@ class Booking(Base):
 
 class RoomCreate(BaseModel):
     title: str
-    room_class: int
+    category_id: int
+    description: str
     price: int
     images: Optional[List[str]] = None
 
@@ -54,16 +65,20 @@ class RoomCreate(BaseModel):
 class RoomRead(BaseModel):
     id: int
     title: str
-    room_class: int
+    category: dict
+    description: str
     price: int
+    images: List[str]
 
     class Config:
         orm_mode: True
+
 
 class BookingCreate(BaseModel):
     room_id: int
     start_date: datetime
     end_date: datetime
+
 
 class BookingRead(BaseModel):
     id: int
@@ -72,6 +87,17 @@ class BookingRead(BaseModel):
     end_date: datetime
     created_at: datetime
     updated_at: Optional[datetime]
+
+    class Config:
+        orm_mode: True
+
+
+class CategoryCreate(BaseModel):
+    value: str
+
+class CategoryRead(BaseModel):
+    id: int
+    value: str
 
     class Config:
         orm_mode: True

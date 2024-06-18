@@ -15,21 +15,6 @@ fastapi_users = FastAPIUsers[User, int](
     [auth_backend],
 )
 
-
-def run_migrations():
-    alembic_cfg = Config("alembic.ini")
-    command.upgrade(alembic_cfg, "head")
-
-
-@asynccontextmanager
-async def lifespan(app_: FastAPI):
-    # log.info("Starting up...")
-    # log.info("run alembic upgrade head...")
-    run_migrations()
-    yield
-    # log.info("Shutting down...")
-
-
 app = FastAPI()
 
 current_user = fastapi_users.current_user()
