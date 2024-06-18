@@ -2,27 +2,56 @@
     <div class="container">
         <ng-container *ngIf="selectedRoom$ | async as room">
             <div class="room">
-                <img class="room__image" [src]="room.images[0]" alt="image of room">
-                <div class="room__desc">
-                    <h2>
-                        {{room.title}}
-                    </h2>
-                    <p>
-                        <span style="font-size: 18px;font-weight:500;color: #ffabf3">
-                            Описание:
-                        </span>
-                        <br>
-                        {{room.description}}
-                    </p>
+                <div class="room__header">
+                    <img class="room__image" [src]="room.images[0]" alt="image of room">
+                    <div class="room__desc">
+                        <h2>
+                            {{room.title}}
+                        </h2>
+                        <p>
+                            <span style="font-size: 18px;font-weight:500;color: #ffabf3">
+                                Описание:
+                            </span>
+                            <br>
+                            {{room.description}}
+                        </p>
+                        <p>
+                            <span style="font-size: 18px;font-weight:500;color: #ffabf3">
+                                Стоимость за сутки:
+                            </span>
+                            <br>
+                            {{room.price}} RUB
+                        </p>
+                        <div class="room__booking">
+                            <h3>
+                                Бронирование
+                            </h3>
+                            <div class="form__group">
+                                <mat-form-field>
+                                    <mat-label>Дата заселения</mat-label>
+                                    <input matInput [formControl]="controlStartDate" [matDatepickerFilter]="bookingFilter" [matDatepicker]="startPicker">
+                                    <mat-hint>Выберите дату заселения</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #startPicker></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>Дата выселения</mat-label>
+                                    <input matInput [formControl]="controlEndDate" [matDatepickerFilter]="bookingFilter" [matDatepicker]="picker">
+                                    <mat-hint>Выберите дату выселения</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <p style="align-self: flex-end; font-weight: 600;margin-top:30px;">
+                                Общая стоимость: 36000 RUB
+                            </p>
+                            <button (click)="bookingRoom(room.id)" mat-flat-button color="accent" style="align-self: flex-end;margin-top:15px;">
+                                Забронировать
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </ng-container>
-<!--        <mat-form-field>-->
-<!--            <mat-label>Choose a date</mat-label>-->
-<!--            <input matInput [matDatepickerFilter]="myHolidayFilter" [matDatepicker]="picker">-->
-<!--            <mat-hint>MM/DD/YYYY</mat-hint>-->
-<!--            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>-->
-<!--            <mat-datepicker #picker></mat-datepicker>-->
-<!--        </mat-form-field>-->
     </div>
 </app-layout>

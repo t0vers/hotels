@@ -4,7 +4,12 @@
 
 .room {
     display: flex;
-    gap: 50px;
+    flex-direction: column;
+
+    &__header {
+        display: flex;
+        gap: 50px;
+    }
 
     &__image {
         width: 50%;
@@ -15,5 +20,18 @@
         flex-direction: column;
         gap: 40px;
     }
+
+    &__booking {
+        display: flex;
+        flex-direction: column;
+        margin-top: 30px;
+        //align-self: center;
+    }
+}
+
+.form__group {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
 }
 

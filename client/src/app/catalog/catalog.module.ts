@@ -18,6 +18,7 @@ import {MatDatepicker, MatDatepickerModule, MatDatepickerToggle} from "@angular/
 import {MatInput, MatInputModule} from "@angular/material/input";
 import {provideNativeDateAdapter} from "@angular/material/core";
 import {AuthService} from "../core/services/auth.service";
+import {BookingService} from "../core/services/booking.service";
 
 @NgModule({
     declarations: [
@@ -41,7 +42,8 @@ import {AuthService} from "../core/services/auth.service";
         provideHttpClient(),
         provideNativeDateAdapter(),
         RoomService,
-        AuthService
+        AuthService,
+        BookingService,
     ]
 })
 export class CatalogModule { }
