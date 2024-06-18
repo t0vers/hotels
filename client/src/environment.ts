@@ -1,7 +1,9 @@
 interface IEnvironment {
-    apiUrl: string;
+    apiUsersUrl: string;
+    apiCatalogUrl: string;
 }
 
 export const environment: IEnvironment = {
-    apiUrl: 'http://localhost:8000'
+    apiUsersUrl: 'http://localhost:8000',
+    apiCatalogUrl: 'http://localhost:8001'
 }
