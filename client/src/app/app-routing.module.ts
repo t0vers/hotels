@@ -7,6 +7,10 @@ const routes: Routes = [
         loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
     },
     {
+        path: 'catalog',
+        loadChildren: () => import('./catalog/catalog.module').then(m => m.CatalogModule)
+    },
+    {
         path: '',
         redirectTo: 'auth',
         pathMatch: 'full'

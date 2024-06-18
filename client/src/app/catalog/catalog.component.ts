@@ -6,4 +6,4 @@ import {ChangeDetectionStrategy, Component} from "@angular/core";
     styleUrls: ['./catalog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CatalogComponent { }
+export class CatalogComponent {  }

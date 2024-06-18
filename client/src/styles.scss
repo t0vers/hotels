@@ -1,9 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+ul {
+    list-style: none;
+}
+
 h1, h2, h3, p, div {
     color: #FFFFFF;
 }
-
-
 
 html, body {
     margin: 0;
@@ -14,3 +22,7 @@ html, body {
     }
 }
 body { font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #1a1b1f }
+
+.container {
+    padding: 0 140px;
+}

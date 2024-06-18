@@ -6,6 +6,10 @@
     padding: 50px;
     border-radius: 32px;
 
+    h1 {
+        margin-bottom: 20px;
+    }
+
     &__form {
         display: flex;
         flex-direction: column;

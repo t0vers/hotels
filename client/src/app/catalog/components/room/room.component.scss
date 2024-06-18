@@ -1,0 +1,13 @@
+.example-card {
+    max-width: 300px;
+}
+
+mat-card-header {
+    display: flex;
+    flex-direction: column-reverse;
+    position: relative;
+
+    img {
+        width: 100%;
+    }
+}
