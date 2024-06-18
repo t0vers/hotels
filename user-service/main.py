@@ -1,5 +1,9 @@
+from contextlib import asynccontextmanager
+
+from alembic import command
 from fastapi import FastAPI, Depends
 from fastapi_users import FastAPIUsers
+from uvicorn import Config
 
 from auth.auth import auth_backend
 from auth.manager import get_user_manager
@@ -11,9 +15,25 @@ fastapi_users = FastAPIUsers[User, int](
     [auth_backend],
 )
 
+
+def run_migrations():
+    alembic_cfg = Config("alembic.ini")
+    command.upgrade(alembic_cfg, "head")
+
+
+@asynccontextmanager
+async def lifespan(app_: FastAPI):
+    # log.info("Starting up...")
+    # log.info("run alembic upgrade head...")
+    run_migrations()
+    yield
+    # log.info("Shutting down...")
+
+
 app = FastAPI()
 
 current_user = fastapi_users.current_user()
+
 
 @app.get("/protected-route")
 def protected_route(user: User = Depends(current_user)):
@@ -37,6 +57,3 @@ app.include_router(
     prefix="/auth",
     tags=["auth"],
 )
-
-
-
