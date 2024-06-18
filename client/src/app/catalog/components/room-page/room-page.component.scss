@@ -1,0 +1,19 @@
+.container {
+    margin-top: 50px;
+}
+
+.room {
+    display: flex;
+    gap: 50px;
+
+    &__image {
+        width: 50%;
+    }
+
+    &__desc {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+}
+
