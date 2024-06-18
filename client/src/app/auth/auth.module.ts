@@ -6,7 +6,7 @@ import {MatInput} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
 import {AuthComponent} from "./auth.component";
 import {AuthRoutingModule} from "./auth-routing.module";
-import {AuthService} from "./services/auth.service";
+import {AuthService} from "../core/services/auth.service";
 import {provideHttpClient} from "@angular/common/http";
 import {RegisterComponent} from "./components/register/register.component";
 
