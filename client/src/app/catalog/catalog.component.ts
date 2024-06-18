@@ -1,4 +1,8 @@
-import {ChangeDetectionStrategy, Component} from "@angular/core";
+import {ChangeDetectionStrategy, Component, OnInit} from "@angular/core";
+import {Observable} from "rxjs";
+import {ICategory} from "../core/interfaces/category.interface";
+import {RoomService} from "../core/services/room.service";
+import {IRoom} from "../core/interfaces/room.interface";
 
 @Component({
     selector: 'app-catalog',
@@ -6,4 +10,14 @@ import {ChangeDetectionStrategy, Component} from "@angular/core";
     styleUrls: ['./catalog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CatalogComponent {  }
+export class CatalogComponent implements OnInit {
+    public categories$!: Observable<ICategory[]>;
+    public rooms$!: Observable<IRoom[]>
+
+    constructor(private _roomService: RoomService) { }
+
+    public ngOnInit(): void {
+        this.categories$ = this._roomService.categories;
+        this.rooms$ = this._roomService.rooms;
+    }
+}

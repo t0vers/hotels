@@ -1,4 +1,5 @@
-import {ChangeDetectionStrategy, Component} from "@angular/core";
+import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
+import {IRoom} from "../../../core/interfaces/room.interface";
 
 @Component({
     selector: 'app-room',
@@ -6,4 +7,9 @@ import {ChangeDetectionStrategy, Component} from "@angular/core";
     styleUrls: ['./room.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RoomComponent { }
+export class RoomComponent {
+    @Input({
+        required: true
+    })
+    public room!: IRoom;
+}

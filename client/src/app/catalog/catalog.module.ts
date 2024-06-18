@@ -10,6 +10,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {CategoryGridComponent} from "./components/category/category-grid.component";
 import {MatChipsModule} from "@angular/material/chips";
 import {AsyncPipe} from "@angular/common";
+import {RoomService} from "../core/services/room.service";
 
 @NgModule({
     declarations: [
@@ -27,7 +28,8 @@ import {AsyncPipe} from "@angular/common";
         AsyncPipe
     ],
     providers: [
-        provideHttpClient()
+        provideHttpClient(),
+        RoomService
     ]
 })
 export class CatalogModule { }
