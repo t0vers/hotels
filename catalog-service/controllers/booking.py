@@ -7,8 +7,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from database.database import get_session
-from main import is_auth
 from models.models import Booking, BookingRead, BookingCreate
+from services.auth import is_auth
 
 booking_router = APIRouter()
 
@@ -51,8 +51,8 @@ async def check_overlapping_bookings(session: AsyncSession, room_id: int, start_
 @booking_router.post("/bookings", response_model=BookingRead, tags=["Booking"])
 async def create_booking(request: Request, booking: BookingCreate, session: AsyncSession = Depends(get_session)):
     auth_token = request.headers.get('Authorization')
-    # user_data = await is_auth(auth_token)
-    # user_id = user_data["id"]
+    user_data = await is_auth(auth_token)
+    user_id = user_data["id"]
 
     start_date = booking.start_date.replace(tzinfo=None)
     end_date = booking.end_date.replace(tzinfo=None)
@@ -62,7 +62,7 @@ async def create_booking(request: Request, booking: BookingCreate, session: Asyn
 
     new_booking = Booking(
         room_id=booking.room_id,
-        user_id=41,
+        user_id=user_id,
         start_date=start_date,
         end_date=end_date
     )

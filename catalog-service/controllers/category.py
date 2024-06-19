@@ -34,8 +34,6 @@ async def create_category(category: CategoryCreate, session: AsyncSession = Depe
 
 @category_router.get("/categories", response_model=List[CategoryRead], tags=["Category"])
 async def get_categories(request: Request, session: AsyncSession = Depends(get_session)):
-    # auth_token = request.headers.get('Authorization')
-    # await is_auth(auth_token)
     result = await session.execute(select(Category))
     categories = result.scalars().all()
     return categories
