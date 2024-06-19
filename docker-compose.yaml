@@ -51,6 +51,16 @@ services:
       - "8001:8001"
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:1q2w3e4r5t!Q@catalog-postgres:5433/hotel
+  admin-app:
+    build:
+      context: ./admin-service
+      dockerfile: Dockerfile
+    depends_on:
+      - catalog-db
+    ports:
+      - "8002:8002"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:1q2w3e4r5t!Q@catalog-postgres:5433/hotel
 
 volumes:
   user_postgres_data:
