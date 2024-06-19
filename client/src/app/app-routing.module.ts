@@ -12,6 +12,10 @@ const routes: Routes = [
         loadChildren: () => import('./catalog/catalog.module').then(m => m.CatalogModule)
     },
     {
+        path: 'admin',
+        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+    },
+    {
         path: 'bookings',
         component: BookingPageComponent
     },

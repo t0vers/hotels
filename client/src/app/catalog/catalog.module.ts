@@ -46,6 +46,9 @@ import {BookingPageComponent} from "./components/booking-page/booking-page.compo
         NgIf,
         DatePipe
     ],
+    exports: [
+        BookingComponent
+    ],
     providers: [
         provideHttpClient(),
         provideNativeDateAdapter(),
