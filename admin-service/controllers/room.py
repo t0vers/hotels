@@ -5,12 +5,19 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.database import get_session
 from models.models import Category, RoomRead, Room, RoomCreate
+from services.auth import is_auth
 
 room_router = APIRouter()
 
 
 @room_router.get("/rooms", response_model=List[RoomRead], tags=["Room"])
-async def get_rooms(category_id: Optional[int] = Query(None), session: AsyncSession = Depends(get_session)):
+async def get_rooms(request: Request, category_id: Optional[int] = Query(None), session: AsyncSession = Depends(get_session)):
+    auth_token = request.headers.get('Authorization')
+    user_data = await is_auth(auth_token)
+
+    if user_data["role_id"] != 2:
+        raise HTTPException(status_code=403, detail="Permission Denied")
+
     query = select(Room)
     if category_id is not None and category_id != 0:
         query = query.filter_by(category_id=category_id)
@@ -38,7 +45,10 @@ async def get_rooms(category_id: Optional[int] = Query(None), session: AsyncSess
 @room_router.post("/rooms", response_model=RoomRead, tags=["Room"])
 async def create_room(request: Request, room: RoomCreate, session: AsyncSession = Depends(get_session)):
     auth_token = request.headers.get('Authorization')
-    # await is_auth(auth_token)
+    user_data = await is_auth(auth_token)
+
+    if user_data["role_id"] != 2:
+        raise HTTPException(status_code=403, detail="Permission Denied")
 
     result = await session.execute(select(Category).filter_by(id=room.category_id))
     category = result.scalar_one_or_none()
@@ -68,7 +78,13 @@ async def create_room(request: Request, room: RoomCreate, session: AsyncSession 
     return response_data
 
 @room_router.put("/rooms/{room_id}", response_model=RoomRead, tags=["Room"])
-async def update_room(room_id: int, updated_room: RoomCreate, session: AsyncSession = Depends(get_session)):
+async def update_room(request: Request, room_id: int, updated_room: RoomCreate, session: AsyncSession = Depends(get_session)):
+    auth_token = request.headers.get('Authorization')
+    user_data = await is_auth(auth_token)
+
+    if user_data["role_id"] != 2:
+        raise HTTPException(status_code=403, detail="Permission Denied")
+
     result = await session.execute(select(Room).where(Room.id == room_id))
     room = result.scalar_one_or_none()
 
@@ -102,7 +118,13 @@ async def update_room(room_id: int, updated_room: RoomCreate, session: AsyncSess
 
 
 @room_router.delete("/rooms/{room_id}", response_model=RoomRead, tags=["Room"])
-async def delete_room(room_id: int, session: AsyncSession = Depends(get_session)):
+async def delete_room(request: Request, room_id: int, session: AsyncSession = Depends(get_session)):
+    auth_token = request.headers.get('Authorization')
+    user_data = await is_auth(auth_token)
+
+    if user_data["role_id"] != 2:
+        raise HTTPException(status_code=403, detail="Permission Denied")
+
     result = await session.execute(select(Room).where(Room.id == room_id))
     room = result.scalar_one_or_none()
 

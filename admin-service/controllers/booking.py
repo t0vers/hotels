@@ -1,13 +1,13 @@
-from datetime import datetime, date, timedelta
 from typing import List
 
-from fastapi import Depends, HTTPException, Query, Request, APIRouter
-from sqlalchemy import select, and_
+from fastapi import Depends, HTTPException, Request, APIRouter
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from database.database import get_session
-from models.models import Booking, BookingRead, BookingCreate
+from models.models import Booking, BookingRead
+from services.auth import is_auth
 
 booking_router = APIRouter()
 
@@ -15,7 +15,10 @@ booking_router = APIRouter()
 @booking_router.get("/user/bookings/{user_id}", response_model=List[BookingRead], tags=["Booking"])
 async def get_user_bookings(request: Request, user_id: int, session: AsyncSession = Depends(get_session)):
     auth_token = request.headers.get('Authorization')
-    # user_data = await is_auth(auth_token)
+    user_data = await is_auth(auth_token)
+
+    if user_data["role_id"] != 2:
+        raise HTTPException(status_code=403, detail="Permission Denied")
 
     result = await session.execute(
         select(Booking).where(Booking.user_id == user_id).options(selectinload(Booking.room)))
@@ -24,7 +27,13 @@ async def get_user_bookings(request: Request, user_id: int, session: AsyncSessio
 
 
 @booking_router.delete("/bookings/{booking_id}", response_model=BookingRead, tags=["Booking"])
-async def delete_category(booking_id: int, session: AsyncSession = Depends(get_session)):
+async def delete_category(request: Request, booking_id: int, session: AsyncSession = Depends(get_session)):
+    auth_token = request.headers.get('Authorization')
+    user_data = await is_auth(auth_token)
+
+    if user_data["role_id"] != 2:
+        raise HTTPException(status_code=403, detail="Permission Denied")
+
     result = await session.execute(select(Booking).where(Booking.id == booking_id))
     booking = result.scalar_one_or_none()
 
@@ -40,7 +49,10 @@ async def delete_category(booking_id: int, session: AsyncSession = Depends(get_s
 @booking_router.get("/bookings", response_model=List[BookingRead], tags=["Booking"])
 async def get_bookings(request: Request, session: AsyncSession = Depends(get_session)):
     auth_token = request.headers.get('Authorization')
-    # await is_auth(auth_token)
+    user_data = await is_auth(auth_token)
+
+    if user_data["role_id"] != 2:
+        raise HTTPException(status_code=403, detail="Permission Denied")
     result = await session.execute(select(Booking).options(selectinload(Booking.room)))
     bookings = result.scalars().all()
     return bookings
