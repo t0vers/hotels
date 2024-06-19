@@ -106,7 +106,8 @@ async def create_room(request: Request, room: RoomCreate, session: AsyncSession 
         "title": new_room.title,
         "category": {"id": category.id, "value": category.value},
         "price": new_room.price,
-        "description": new_room.description
+        "description": new_room.description,
+        "images": new_room.images
     }
     return response_data
 

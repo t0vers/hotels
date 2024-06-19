@@ -16,7 +16,7 @@ import {RoomPageComponent} from "./components/room-page/room-page.component";
 import {MatFormField, MatFormFieldModule, MatHint, MatLabel} from "@angular/material/form-field";
 import {MatDatepicker, MatDatepickerModule, MatDatepickerToggle} from "@angular/material/datepicker";
 import {MatInput, MatInputModule} from "@angular/material/input";
-import {provideNativeDateAdapter} from "@angular/material/core";
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, provideNativeDateAdapter} from "@angular/material/core";
 import {AuthService} from "../core/services/auth.service";
 import {BookingService} from "../core/services/booking.service";
 

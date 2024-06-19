@@ -1,11 +1,14 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from "@angular/core";
 import {ActivatedRoute, Params} from "@angular/router";
 import {IRoom} from "../../../core/interfaces/room.interface";
-import {Observable} from "rxjs";
+import {combineLatest, Observable, startWith} from "rxjs";
 import {RoomService} from "../../../core/services/room.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {BookingService} from "../../../core/services/booking.service";
 import {FormControl, Validators} from "@angular/forms";
+import * as _moment from 'moment';
+import {default as _rollupMoment} from 'moment';
+const moment = _rollupMoment || _moment;
 
 @Component({
     templateUrl: './room-page.component.html',
@@ -16,8 +19,10 @@ export class RoomPageComponent implements OnInit {
     public selectedRoom$!: Observable<IRoom>;
     public bookedDates$!: Observable<Date[]>;
 
-    public controlStartDate: FormControl<string | null> = new FormControl<string>('', Validators.required);
-    public controlEndDate: FormControl<string | null> = new FormControl<string>('', Validators.required);
+    public controlStartDate: FormControl = new FormControl('', Validators.required);
+    public controlEndDate: FormControl = new FormControl('', Validators.required);
+
+    public fullDays: number = 0;
 
     private _destroyRef: DestroyRef = inject(DestroyRef);
 
@@ -43,6 +48,13 @@ export class RoomPageComponent implements OnInit {
                 this.bookedDates$ = this._bookingService.bookedDates;
             }
         );
+
+        combineLatest([
+            this.controlStartDate.valueChanges.pipe(startWith(this.controlStartDate.value)),
+            this.controlEndDate.valueChanges.pipe(startWith(this.controlEndDate.value))
+        ])
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe(() => this.fullDays = this.calculateDays())
     }
 
     public bookingFilter = (d: Date | null): boolean => {
@@ -66,9 +78,13 @@ export class RoomPageComponent implements OnInit {
     public bookingRoom(id: number): void {
         this._bookingService.createBooking({
             room_id: id,
-            start_date: this.controlStartDate.value!,
-            end_date: this.controlEndDate.value!
+            start_date: moment(this.controlStartDate.value!).format('yyyy-MM-DD'),
+            end_date: moment(this.controlEndDate.value!).format('yyyy-MM-DD')
         });
+    }
+
+    public calculateDays(): number {
+        return moment(this.controlEndDate.value).diff(moment(this.controlStartDate.value), "days");
     }
 
 }

@@ -1,16 +1,21 @@
 import {DestroyRef, inject, Injectable} from "@angular/core";
-import {BehaviorSubject, map, Observable} from "rxjs";
+import {BehaviorSubject, catchError, map, Observable, of, throwError} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environment";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {IBookingRequest} from "../interfaces/requests/booking-request.interface";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackbarComponent} from "../components/snackbar/snackbar.component";
 
 @Injectable()
 export class BookingService {
     private _bookedDates: BehaviorSubject<Date[]> = new BehaviorSubject<Date[]>([]);
     private _destroyRef: DestroyRef = inject(DestroyRef);
 
-    constructor(private _http: HttpClient) { }
+    constructor(
+        private _http: HttpClient,
+        private _snackBar: MatSnackBar
+    ) { }
 
     private getHeaders(): HttpHeaders {
         const keycloakToken: string = localStorage.getItem(
@@ -42,8 +47,20 @@ export class BookingService {
     }
 
     public createBooking(booking: IBookingRequest) {
-        return this._http.post(`${environment.apiCatalogUrl}/bookings`, booking,
-            { headers: this.getHeaders() }
-        ).subscribe()
+        return this._http.post(`${environment.apiCatalogUrl}/bookings`, booking, { headers: this.getHeaders() })
+            .pipe(
+                takeUntilDestroyed(this._destroyRef),
+            )
+            .subscribe({
+                next: (response: any) => {
+                    console.log('Response:', response);
+                    this._snackBar.openFromComponent(SnackbarComponent, {
+                        horizontalPosition: 'end',
+                        verticalPosition: 'top',
+                        duration: 3000,
+                        data: response.detail ? response.detail : 'Номер успешно забронирован'
+                    });
+                },
+            });
     }
 }

@@ -4,8 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import {HTTP_INTERCEPTORS} from "@angular/common/http";
-import {AuthInterceptor} from "./core/interceptors/auth.interceptor";
+import {SnackbarComponent} from "./core/components/snackbar/snackbar.component";
 
 @NgModule({
     declarations: [
@@ -14,6 +13,7 @@ import {AuthInterceptor} from "./core/interceptors/auth.interceptor";
     imports: [
         BrowserModule,
         AppRoutingModule,
+        SnackbarComponent
     ],
   providers: [
     provideAnimationsAsync(),

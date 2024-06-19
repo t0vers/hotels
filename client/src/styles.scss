@@ -26,3 +26,11 @@ body { font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #1a1
 .container {
     padding: 0 140px;
 }
+
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: inherit;
+}

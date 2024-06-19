@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component} from "@angular/core";
 import {MatMiniFabButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
+import {RouterLink} from "@angular/router";
 
 @Component({
     selector: 'app-header',
@@ -9,7 +10,8 @@ import {MatIcon} from "@angular/material/icon";
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         MatMiniFabButton,
-        MatIcon
+        MatIcon,
+        RouterLink
     ],
     standalone: true
 })

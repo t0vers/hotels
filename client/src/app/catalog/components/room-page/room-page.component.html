@@ -43,7 +43,7 @@
                                 </mat-form-field>
                             </div>
                             <p style="align-self: flex-end; font-weight: 600;margin-top:30px;">
-                                Общая стоимость: 36000 RUB
+                                Общая стоимость: {{ (fullDays * room.price) || 0 }} RUB
                             </p>
                             <button (click)="bookingRoom(room.id)" mat-flat-button color="accent" style="align-self: flex-end;margin-top:15px;">
                                 Забронировать
