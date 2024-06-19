@@ -1,0 +1,15 @@
+.sidenav {
+    border-right: 1px solid #FFFFFF;
+    height: 100%;
+    max-width: 300px;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+button {
+    justify-content: flex-start;
+    font-size: 18px;
+    padding: 15px;
+}
