@@ -1,0 +1,10 @@
+<app-layout>
+    <div class="container">
+        <h2 style="margin-bottom: 30px;">
+            Мои бронирования
+        </h2>
+        @for (booking of bookings$ | async; track booking) {
+            <app-booking [booking]="booking"></app-booking>
+        }
+    </div>
+</app-layout>

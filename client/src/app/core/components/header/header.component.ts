@@ -1,7 +1,12 @@
-import {ChangeDetectionStrategy, Component} from "@angular/core";
-import {MatMiniFabButton} from "@angular/material/button";
+import {ChangeDetectionStrategy, Component, OnInit} from "@angular/core";
+import {MatButton, MatMiniFabButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
+import {MatMenuModule} from "@angular/material/menu";
+import {AuthService} from "../../services/auth.service";
+import {IUser} from "../../interfaces/user.interface";
+import {Observable} from "rxjs";
+import {AsyncPipe} from "@angular/common";
 
 @Component({
     selector: 'app-header',
@@ -11,8 +16,25 @@ import {RouterLink} from "@angular/router";
     imports: [
         MatMiniFabButton,
         MatIcon,
-        RouterLink
+        RouterLink,
+        MatMenuModule,
+        AsyncPipe,
+        MatButton
     ],
     standalone: true
 })
-export class HeaderComponent { }
+export class HeaderComponent implements OnInit {
+    public user$!: Observable<IUser>;
+
+
+    constructor(
+        private _authService: AuthService
+    ) { }
+
+    public ngOnInit(): void {
+        this._authService.initUser();
+        this.user$ = this._authService.user;
+    }
+
+    protected readonly localStorage = localStorage;
+}

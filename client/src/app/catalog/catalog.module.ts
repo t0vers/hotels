@@ -9,23 +9,27 @@ import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {CategoryGridComponent} from "./components/category/category-grid.component";
 import {MatChipsModule} from "@angular/material/chips";
-import {AsyncPipe, NgIf} from "@angular/common";
+import {AsyncPipe, DatePipe, NgIf} from "@angular/common";
 import {RoomService} from "../core/services/room.service";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {RoomPageComponent} from "./components/room-page/room-page.component";
-import {MatFormField, MatFormFieldModule, MatHint, MatLabel} from "@angular/material/form-field";
-import {MatDatepicker, MatDatepickerModule, MatDatepickerToggle} from "@angular/material/datepicker";
-import {MatInput, MatInputModule} from "@angular/material/input";
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, provideNativeDateAdapter} from "@angular/material/core";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatInputModule} from "@angular/material/input";
+import {provideNativeDateAdapter} from "@angular/material/core";
 import {AuthService} from "../core/services/auth.service";
 import {BookingService} from "../core/services/booking.service";
+import {BookingComponent} from "./components/booking/booking.component";
+import {BookingPageComponent} from "./components/booking-page/booking-page.component";
 
 @NgModule({
     declarations: [
         CatalogComponent,
         RoomComponent,
         CategoryGridComponent,
-        RoomPageComponent
+        RoomPageComponent,
+        BookingComponent,
+        BookingPageComponent
     ],
     imports: [
         ReactiveFormsModule,
@@ -36,7 +40,11 @@ import {BookingService} from "../core/services/booking.service";
         MatChipsModule,
         AsyncPipe,
         MatProgressSpinner,
-        MatFormFieldModule, MatInputModule, MatDatepickerModule, NgIf
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        NgIf,
+        DatePipe
     ],
     providers: [
         provideHttpClient(),

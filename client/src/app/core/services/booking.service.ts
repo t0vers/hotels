@@ -1,15 +1,17 @@
 import {DestroyRef, inject, Injectable} from "@angular/core";
-import {BehaviorSubject, catchError, map, Observable, of, throwError} from "rxjs";
+import {BehaviorSubject, map, Observable} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environment";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {IBookingRequest} from "../interfaces/requests/booking-request.interface";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarComponent} from "../components/snackbar/snackbar.component";
+import {IBooking} from "../interfaces/booking.interface";
 
 @Injectable()
 export class BookingService {
-    private _bookedDates: BehaviorSubject<Date[]> = new BehaviorSubject<Date[]>([]);
+    private _bookedDates$: BehaviorSubject<Date[]> = new BehaviorSubject<Date[]>([]);
+    private _userBookings$: BehaviorSubject<IBooking[]> = new BehaviorSubject<IBooking[]>([]);
     private _destroyRef: DestroyRef = inject(DestroyRef);
 
     constructor(
@@ -30,7 +32,21 @@ export class BookingService {
 
 
     public get bookedDates(): Observable<Date[]> {
-        return this._bookedDates.asObservable();
+        return this._bookedDates$.asObservable();
+    }
+
+    public get userBookings(): Observable<IBooking[]> {
+        return this._userBookings$.asObservable();
+    }
+
+    public getUserBookings(): void {
+        this._http.get<IBooking[]>(`${environment.apiCatalogUrl}/user/bookings`, { headers: this.getHeaders() })
+            .pipe(
+                takeUntilDestroyed(this._destroyRef)
+            )
+            .subscribe({
+                next: (bookings: IBooking[]) => this._userBookings$.next(bookings)
+            });
     }
 
     public getBookedDates(id: number): void {
@@ -41,7 +57,7 @@ export class BookingService {
             )
             .subscribe({
                 next: (dates: Date[]) => {
-                    this._bookedDates.next(dates);
+                    this._bookedDates$.next(dates);
                 }
             })
     }

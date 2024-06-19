@@ -21,7 +21,7 @@ export class RoomComponent {
     ) { }
 
     public openRoomPage(id: number): void {
-        if (this._authService.isAuth()) {
+        if (this._authService.user) {
             this._router.navigate([`catalog/${id}`]);
         } else {
             this._router.navigate([`auth/login`]);

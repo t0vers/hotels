@@ -75,4 +75,8 @@ export class RoomService {
                 }
             });
     }
+
+    public getRoom(id: number): Observable<IRoom> {
+        return this._http.get<IRoom>(`${environment.apiCatalogUrl}/rooms/${id}`);
+    }
 }
