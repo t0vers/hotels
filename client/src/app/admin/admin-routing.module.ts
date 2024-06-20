@@ -1,7 +1,8 @@
 import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
 import {AdminComponent} from "./admin.component";
-import {AdminBookingPageComponent} from "./components/admin-booking-page/admin-booking-page.component";
+import {AdminBookingPageComponent} from "./components/admin-booking/admin-booking-page/admin-booking-page.component";
+import {AdminCategoryPageComponent} from "./components/admin-category/admin-category-page/admin-category-page.component";
 
 const routes: Routes = [
     {
@@ -11,6 +12,10 @@ const routes: Routes = [
             {
                 path: 'bookings',
                 component: AdminBookingPageComponent,
+            },
+            {
+                path: 'categories',
+                component: AdminCategoryPageComponent
             },
             {
                 path: '**',

@@ -1,14 +1,14 @@
 import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
-import {IAdminBooking} from "../../../core/interfaces/admin-booking.interface";
-import {AdminService} from "../../../core/services/admin.service";
+import {IAdminBooking} from "../../../../core/interfaces/admin-booking.interface";
+import {AdminService} from "../../../../core/services/admin.service";
 
 @Component({
     selector: 'app-bookings-table',
-    templateUrl: './admin-bookings-table.component.html',
-    styleUrls: ['./admin-bookings-table.component.scss'],
+    templateUrl: './admin-booking-table.component.html',
+    styleUrls: ['./admin-booking-table.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminBookingsTableComponent {
+export class AdminBookingTableComponent {
     @Input({
         required: true
     })

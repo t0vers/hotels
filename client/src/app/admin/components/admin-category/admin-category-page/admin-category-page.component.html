@@ -1,0 +1,9 @@
+<div class="container">
+    <h2 style="margin-bottom: 30px;">
+        Категории
+    </h2>
+    <button (click)="createCategory()" style="margin-bottom: 20px;" mat-stroked-button color="accent">
+        Добавить категорию
+    </button>
+    <app-category-table [dataSource]="(categories$ | async) || []"></app-category-table>
+</div>

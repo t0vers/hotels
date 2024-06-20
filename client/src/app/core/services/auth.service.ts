@@ -133,7 +133,6 @@ export class AuthService {
 
     public initUser(): void {
         if (localStorage.getItem('token')) {
-            console.log('я в инит')
             this._http.get<IUser>(`${environment.apiUsersUrl}/protected-route`, { headers: this.getHeaders() })
                 .pipe(
                     takeUntilDestroyed(this._destroyRef)
