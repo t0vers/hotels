@@ -21,6 +21,8 @@ services:
       - user-db
     ports:
       - "8000:8000"
+    volumes:
+      - "./user-service/.env:/etc/secrets/env"
 
   catalog-db:
     image: postgres
@@ -57,6 +59,8 @@ services:
       - catalog-db
     ports:
       - "8002:8002"
+    volumes:
+      - "./admin-service/.env:/etc/secrets/env"
 
 volumes:
   user_postgres_data:
