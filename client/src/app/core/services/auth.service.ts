@@ -51,6 +51,7 @@ export class AuthService {
 
     public initUser(): void {
         if (localStorage.getItem('token')) {
+            console.log('я в инит')
             this._http.get<IUser>(`${environment.apiUsersUrl}/protected-route`, { headers: this.getHeaders() })
                 .pipe(
                     takeUntilDestroyed(this._destroyRef)
@@ -59,7 +60,7 @@ export class AuthService {
                     next: (user: IUser) => this._user$.next(user)
                 });
         } else {
-            this._router.navigate(['/auth/login']);
+            this._router.navigate(['catalog']);
         }
     }
 }

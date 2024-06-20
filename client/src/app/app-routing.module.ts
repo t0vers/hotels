@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {BookingPageComponent} from "./catalog/components/booking-page/booking-page.component";
+import {AdminGuard} from "./core/guards/admin.guard";
+import {AuthGuard} from "./core/guards/auth.guard";
 
 const routes: Routes = [
     {
         path: 'auth',
         loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
-        canActivate: []
     },
     {
         path: 'catalog',
@@ -14,11 +15,13 @@ const routes: Routes = [
     },
     {
         path: 'admin',
-        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+        canActivate: [AdminGuard]
     },
     {
         path: 'bookings',
-        component: BookingPageComponent
+        component: BookingPageComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: '',
