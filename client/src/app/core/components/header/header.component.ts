@@ -40,4 +40,8 @@ export class HeaderComponent implements OnInit {
     public navigateToBookings(): void {
         this._router.navigate(['/bookings']);
     }
+
+    public logout(): void {
+        this._authService.logout();
+    }
 }

@@ -27,7 +27,7 @@
             </button>
             <mat-menu #menu="matMenu">
                 <button mat-menu-item (click)="navigateToBookings()">Мои бронирования</button>
-                <button mat-menu-item>Выход</button>
+                <button mat-menu-item (click)="logout()">Выход</button>
             </mat-menu>
         } @else {
             <button mat-flat-button color="accent" routerLink="/auth/login">
