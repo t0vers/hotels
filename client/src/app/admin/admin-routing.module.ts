@@ -9,9 +9,14 @@ const routes: Routes = [
         component: AdminComponent,
         children: [
             {
-                path: 'asas',
+                path: 'bookings',
                 component: AdminBookingPageComponent,
             },
+            {
+                path: '**',
+                redirectTo: 'bookings',
+                pathMatch: 'full'
+            }
         ],
     },
 

@@ -58,6 +58,8 @@ export class AuthService {
                 .subscribe({
                     next: (user: IUser) => this._user$.next(user)
                 });
+        } else {
+            this._router.navigate(['/auth/login']);
         }
     }
 }

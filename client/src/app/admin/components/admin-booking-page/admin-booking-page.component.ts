@@ -2,6 +2,8 @@ import {ChangeDetectionStrategy, Component, OnInit} from "@angular/core";
 import {BookingService} from "../../../core/services/booking.service";
 import {IBooking} from "../../../core/interfaces/booking.interface";
 import {Observable} from "rxjs";
+import {IAdminBooking} from "../../../core/interfaces/admin-booking.interface";
+import {AdminService} from "../../../core/services/admin.service";
 
 @Component({
     templateUrl: './admin-booking-page.component.html',
@@ -9,12 +11,14 @@ import {Observable} from "rxjs";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminBookingPageComponent implements OnInit {
-    public bookings$!: Observable<IBooking[]>;
+    public bookings$!: Observable<IAdminBooking[]>;
 
-    constructor(private _bookingService: BookingService) { }
+    constructor(
+        private _adminService: AdminService
+    ) { }
 
     public ngOnInit(): void {
-        this._bookingService.getUserBookings();
-        this.bookings$ = this._bookingService.userBookings;
+        this._adminService.getBookings();
+        this.bookings$ = this._adminService.bookings;
     }
 }

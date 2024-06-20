@@ -2,7 +2,5 @@
     <h2 style="margin-bottom: 30px;">
         Бронирования
     </h2>
-    @for (booking of bookings$ | async; track booking) {
-        <app-booking [booking]="booking"></app-booking>
-    }
+    <app-bookings-table [dataSource]="(bookings$ | async) || []"></app-bookings-table>
 </div>
