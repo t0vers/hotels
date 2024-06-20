@@ -10,7 +10,7 @@ from services.auth import is_auth
 room_router = APIRouter()
 
 
-@room_router.get("/rooms", response_model=List[RoomRead], tags=["Room"])
+@room_router.get("/admin/rooms", response_model=List[RoomRead], tags=["Room"])
 async def get_rooms(request: Request, category_id: Optional[int] = Query(None), session: AsyncSession = Depends(get_session)):
     auth_token = request.headers.get('Authorization')
     user_data = await is_auth(auth_token)
@@ -42,7 +42,7 @@ async def get_rooms(request: Request, category_id: Optional[int] = Query(None), 
     return response_data
 
 
-@room_router.post("/rooms", response_model=RoomRead, tags=["Room"])
+@room_router.post("/admin/rooms", response_model=RoomRead, tags=["Room"])
 async def create_room(request: Request, room: RoomCreate, session: AsyncSession = Depends(get_session)):
     auth_token = request.headers.get('Authorization')
     user_data = await is_auth(auth_token)
@@ -77,7 +77,7 @@ async def create_room(request: Request, room: RoomCreate, session: AsyncSession 
     }
     return response_data
 
-@room_router.put("/rooms/{room_id}", response_model=RoomRead, tags=["Room"])
+@room_router.put("/admin/rooms/{room_id}", response_model=RoomRead, tags=["Room"])
 async def update_room(request: Request, room_id: int, updated_room: RoomCreate, session: AsyncSession = Depends(get_session)):
     auth_token = request.headers.get('Authorization')
     user_data = await is_auth(auth_token)
@@ -117,7 +117,7 @@ async def update_room(request: Request, room_id: int, updated_room: RoomCreate, 
     return response_data
 
 
-@room_router.delete("/rooms/{room_id}", response_model=RoomRead, tags=["Room"])
+@room_router.delete("/admin/rooms/{room_id}", response_model=RoomRead, tags=["Room"])
 async def delete_room(request: Request, room_id: int, session: AsyncSession = Depends(get_session)):
     auth_token = request.headers.get('Authorization')
     user_data = await is_auth(auth_token)

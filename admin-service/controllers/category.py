@@ -11,7 +11,7 @@ from services.auth import is_auth
 category_router = APIRouter()
 
 
-@category_router.post("/categories", response_model=CategoryRead, tags=["Category"])
+@category_router.post("/admin/categories", response_model=CategoryRead, tags=["Category"])
 async def create_category(request: Request, category: CategoryCreate, session: AsyncSession = Depends(get_session)):
     auth_token = request.headers.get('Authorization')
     user_data = await is_auth(auth_token)
@@ -28,7 +28,7 @@ async def create_category(request: Request, category: CategoryCreate, session: A
     return new_category
 
 
-@category_router.get("/categories", response_model=List[CategoryRead], tags=["Category"])
+@category_router.get("/admin/categories", response_model=List[CategoryRead], tags=["Category"])
 async def get_categories(request: Request, session: AsyncSession = Depends(get_session)):
     auth_token = request.headers.get('Authorization')
     user_data = await is_auth(auth_token)
@@ -41,7 +41,7 @@ async def get_categories(request: Request, session: AsyncSession = Depends(get_s
     return categories
 
 
-@category_router.put("/categories/{category_id}", response_model=CategoryRead, tags=["Category"])
+@category_router.put("/admin/categories/{category_id}", response_model=CategoryRead, tags=["Category"])
 async def update_category(request: Request, category_id: int, updated_category: CategoryCreate,
                           session: AsyncSession = Depends(get_session)):
     auth_token = request.headers.get('Authorization')
@@ -64,7 +64,7 @@ async def update_category(request: Request, category_id: int, updated_category: 
     return category
 
 
-@category_router.delete("/categories/{category_id}", response_model=CategoryRead, tags=["Category"])
+@category_router.delete("/admin/categories/{category_id}", response_model=CategoryRead, tags=["Category"])
 async def delete_category(request: Request, category_id: int, session: AsyncSession = Depends(get_session)):
     auth_token = request.headers.get('Authorization')
     user_data = await is_auth(auth_token)
