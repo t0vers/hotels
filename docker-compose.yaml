@@ -21,8 +21,6 @@ services:
       - user-db
     ports:
       - "8000:8000"
-    environment:
-      DATABASE_URL: postgresql+asyncpg://postgres:1q2w3e4r5t!Q@user-postgres:5432/hotels
 
   catalog-db:
     image: postgres
@@ -51,8 +49,6 @@ services:
       - "8001:8001"
     volumes:
       - "./catalog-service/.env:/etc/secrets/env"
-    environment:
-      DATABASE_URL: postgresql+asyncpg://postgres:1q2w3e4r5t!Q@catalog-postgres:5433/hotel
   admin-app:
     build:
       context: ./admin-service
@@ -61,8 +57,6 @@ services:
       - catalog-db
     ports:
       - "8002:8002"
-    environment:
-      DATABASE_URL: postgresql+asyncpg://postgres:1q2w3e4r5t!Q@catalog-postgres:5433/hotel
 
 volumes:
   user_postgres_data:
