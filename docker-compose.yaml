@@ -49,6 +49,8 @@ services:
       - catalog-db
     ports:
       - "8001:8001"
+    volumes:
+      - "./catalog-service/.env:/etc/secrets/env"
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:1q2w3e4r5t!Q@catalog-postgres:5433/hotel
   admin-app:
