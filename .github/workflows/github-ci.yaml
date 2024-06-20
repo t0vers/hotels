@@ -44,6 +44,16 @@ jobs:
               docker build -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest .
               docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
               docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest
+        - name: Build, tag, and push frontend image to Yandex Cloud Container Registry
+          env:
+            CR_REGISTRY: crpet88gcbdno9h2muos
+            CR_REPOSITORY: client
+            IMAGE_TAG: ${{ github.sha }}
+          run: |
+            cd client
+            docker build -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest .
+            docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
+            docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest
         - name: Deploy to Yandex
           uses: appleboy/ssh-action@v1.0.3
           with:
