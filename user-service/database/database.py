@@ -7,6 +7,7 @@ from sqlalchemy import Column, Boolean, String, Integer, TIMESTAMP, ForeignKey
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 from models.user import Role
+from pydantic import BaseModel
 
 SQLALCHEMY_DATABASE_URL = "postgresql+asyncpg://postgres:1q2w3e4r5t!Q@user-db:5432/hotels"
 Base = declarative_base()
@@ -29,6 +30,15 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     is_superuser: bool = Column(Boolean, default=False, nullable=False)
     is_verified: bool = Column(Boolean, default=False, nullable=False)
 
+
+class UserRead(BaseModel):
+    id: int
+    email: str
+    username: str
+    role_id: int
+
+    class Config:
+        orm_mode: True
 
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_maker() as session:

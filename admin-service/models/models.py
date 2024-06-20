@@ -80,6 +80,7 @@ class BookingRead(BaseModel):
 
     class Config:
         orm_mode: True
+        from_attributes = True
 
 
 class CategoryCreate(BaseModel):
@@ -91,3 +92,29 @@ class CategoryRead(BaseModel):
 
     class Config:
         orm_mode: True
+
+
+class UserRead(BaseModel):
+    id: int
+    email: str
+    username: str
+    role_id: int
+
+    class Config:
+        orm_mode: True
+
+class BookingReadWithUser(BaseModel):
+    id: int
+    room_id: int
+    user_id: Optional[int]  # Делаем user_id необязательным
+    start_date: datetime
+    end_date: datetime
+    created_at: datetime
+    updated_at: Optional[datetime]
+    user: Optional[UserRead]
+    room: Optional[RoomRead]
+
+    class Config:
+        orm_mode: True
+        from_attributes = True
+
