@@ -6,10 +6,11 @@ from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase, SQLAlchemyBaseUs
 from sqlalchemy import Column, Boolean, String, Integer, TIMESTAMP, ForeignKey
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
+
+from config import SQLALCHEMY_DATABASE_URL
 from models.user import Role
 from pydantic import BaseModel
 
-SQLALCHEMY_DATABASE_URL = "postgresql+asyncpg://postgres:1q2w3e4r5t!Q@user-db:5432/hotels"
 Base = declarative_base()
 
 engine = create_async_engine(
@@ -39,6 +40,7 @@ class UserRead(BaseModel):
 
     class Config:
         orm_mode: True
+
 
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_maker() as session:
