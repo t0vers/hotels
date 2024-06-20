@@ -28,7 +28,7 @@ async def get_user_bookings(request: Request, user_id: int, session: AsyncSessio
     return bookings
 
 
-@booking_router.delete("/admin/bookings/{booking_id}", response_model=BookingRead, tags=["Booking"])
+@booking_router.delete("/api/admin/bookings/{booking_id}", response_model=BookingRead, tags=["Booking"])
 async def delete_category(request: Request, booking_id: int, session: AsyncSession = Depends(get_session)):
     auth_token = request.headers.get('Authorization')
     user_data = await is_auth(auth_token)
@@ -47,7 +47,7 @@ async def delete_category(request: Request, booking_id: int, session: AsyncSessi
     return booking
 
 
-@booking_router.get("/admin/bookings", response_model=List[BookingReadWithUser], tags=["Booking"])
+@booking_router.get("/api/admin/bookings", response_model=List[BookingReadWithUser], tags=["Booking"])
 async def get_bookings(request: Request, session: AsyncSession = Depends(get_session)):
     global room
     auth_token = request.headers.get('Authorization')
