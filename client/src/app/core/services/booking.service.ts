@@ -89,4 +89,14 @@ export class BookingService {
                 }
             });
     }
+
+    public deleteBooking(id: number) {
+        return this._http.delete(`${environment.apiCatalogUrl}/bookings/${id}`, { headers: this.getHeaders() })
+            .pipe(
+                takeUntilDestroyed(this._destroyRef)
+            )
+            .subscribe({
+                next: () => this.getUserBookings()
+            })
+    }
 }

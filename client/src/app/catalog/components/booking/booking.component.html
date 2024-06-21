@@ -13,6 +13,7 @@
                     Дата выселения: {{booking.end_date | date: 'dd.MM.yyyy'}}
                 </mat-card-content>
             </div>
+            <button style="margin-left:auto; align-self: start" mat-stroked-button color="warn" (click)="deleteBooking(booking.id)">Удалить</button>
         </div>
     </ng-container>
 </mat-card>
