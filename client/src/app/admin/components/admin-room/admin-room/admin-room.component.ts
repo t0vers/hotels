@@ -22,6 +22,10 @@ export class AdminRoomComponent {
     ) {
     }
 
+    public deleteRoom(id: number): void {
+        this._adminService.deleteRoom(id);
+    }
+
     public editRoom(): void {
         this._dialog.open(AdminRoomDialog,{
             data: {
