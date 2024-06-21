@@ -6,6 +6,8 @@ import {environment} from "../../../environment";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {ICategory} from "../interfaces/category.interface";
 import {IRoom} from "../interfaces/room.interface";
+import {SnackbarComponent} from "../components/snackbar/snackbar.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable()
 export class AdminService {
@@ -27,7 +29,7 @@ export class AdminService {
         return this._rooms$.asObservable();
     }
 
-    constructor(private _http: HttpClient) { }
+    constructor(private _http: HttpClient, private _snackbar: MatSnackBar) { }
 
     private getHeaders(): HttpHeaders {
         const keycloakToken: string = localStorage.getItem(
@@ -140,7 +142,15 @@ export class AdminService {
                 takeUntilDestroyed(this._destroyRef)
             )
             .subscribe({
-                next: () => this.getRooms()
+                next: () => this.getRooms(),
+                error: () => {
+                    this._snackbar.openFromComponent(SnackbarComponent, {
+                        horizontalPosition: 'end',
+                        verticalPosition: 'top',
+                        duration: 3000,
+                        data: 'На данный номер есть активные бронирования'
+                    });
+                }
             });
     }
 }

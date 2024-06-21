@@ -72,6 +72,22 @@ async def create_booking(request: Request, booking: BookingCreate, session: Asyn
     return new_booking
 
 
+@booking_router.delete("/bookings/{booking_id}", response_model=BookingRead, tags=["Booking"])
+async def delete_booking(request: Request, booking_id: int, session: AsyncSession = Depends(get_session)):
+    auth_token = request.headers.get('Authorization')
+    await is_auth(auth_token)
+
+    result = await session.execute(select(Booking).where(Booking.id == booking_id))
+    booking = result.scalar_one_or_none()
+
+    if booking is None:
+        raise HTTPException(status_code=404, detail="Booking not found")
+
+    await session.delete(booking)
+    await session.commit()
+    return booking
+
+
 @booking_router.get("/available-rooms", response_model=List[date], tags=["Room"])
 async def get_available_rooms(
         room_id: int = Query(..., description="ID комнаты, для которой проверяется доступность"),
