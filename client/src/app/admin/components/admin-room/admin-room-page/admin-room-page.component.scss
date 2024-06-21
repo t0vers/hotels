@@ -1,3 +1,10 @@
 .container {
     margin: 50px 0;
 }
+
+.room__container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}

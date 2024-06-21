@@ -33,7 +33,7 @@ class Booking(Base):
     __tablename__ = "booking"
 
     id = Column(Integer, primary_key=True, index=True)
-    room_id = Column(Integer, ForeignKey("room.id"), nullable=False)
+    room_id = Column(Integer, ForeignKey("room.id", ondelete="CASCADE"), nullable=False)
     user_id = Column(Integer, nullable=False)
     start_date = Column(DateTime, nullable=False)
     end_date = Column(DateTime, nullable=False)

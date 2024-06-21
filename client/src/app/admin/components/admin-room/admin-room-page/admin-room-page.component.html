@@ -5,7 +5,9 @@
     <button (click)="createRoom()" style="margin-bottom: 20px;" mat-stroked-button color="accent">
         Добавить номер
     </button>
-    @for (room of rooms$ | async;track room) {
-        <app-admin-room [room]="room"/>
-    }
+    <div class="room__container">
+        @for (room of rooms$ | async;track room) {
+            <app-admin-room [room]="room"/>
+        }
+    </div>
 </div>

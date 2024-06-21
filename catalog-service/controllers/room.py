@@ -65,36 +65,3 @@ async def get_room_by_id(room_id: int, session: AsyncSession = Depends(get_sessi
     }
 
     return response_data
-
-
-@room_router.post("/rooms", response_model=RoomRead, tags=["Room"])
-async def create_room(request: Request, room: RoomCreate, session: AsyncSession = Depends(get_session)):
-    auth_token = request.headers.get('Authorization')
-    # await is_auth(auth_token)
-
-    result = await session.execute(select(Category).filter_by(id=room.category_id))
-    category = result.scalar_one_or_none()
-    if not category:
-        raise HTTPException(status_code=404, detail="Category not found")
-
-    new_room = Room(
-        title=room.title,
-        category_id=room.category_id,
-        price=room.price,
-        images=room.images,
-        description=room.description
-    )
-
-    session.add(new_room)
-    await session.commit()
-    await session.refresh(new_room)
-
-    response_data = {
-        "id": new_room.id,
-        "title": new_room.title,
-        "category": {"id": category.id, "value": category.value},
-        "price": new_room.price,
-        "description": new_room.description,
-        "images": new_room.images
-    }
-    return response_data
