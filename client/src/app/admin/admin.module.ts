@@ -25,6 +25,18 @@ import {MatDialogContent, MatDialogModule} from "@angular/material/dialog";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
+import {AdminRoomPageComponent} from "./components/admin-room/admin-room-page/admin-room-page.component";
+import {AdminRoomComponent} from "./components/admin-room/admin-room/admin-room.component";
+import {
+    MatCard,
+    MatCardActions,
+    MatCardContent,
+    MatCardHeader,
+    MatCardImage,
+    MatCardSubtitle, MatCardTitle
+} from "@angular/material/card";
+import {AdminRoomDialog} from "./components/admin-room/admin-room-dialog/admin-room-dialog.component";
+import {MatOption, MatSelect} from "@angular/material/select";
 
 @NgModule({
     declarations: [
@@ -34,7 +46,10 @@ import {ReactiveFormsModule} from "@angular/forms";
         AdminBookingTableComponent,
         AdminCategoryPageComponent,
         AdminCategoryTableComponent,
-        AdminCategoryDialogComponent
+        AdminCategoryDialogComponent,
+        AdminRoomPageComponent,
+        AdminRoomComponent,
+        AdminRoomDialog
     ],
     imports: [
         AdminRoutingModule,
@@ -51,6 +66,15 @@ import {ReactiveFormsModule} from "@angular/forms";
         MatInput,
         MatLabel,
         ReactiveFormsModule,
+        MatCard,
+        MatCardActions,
+        MatCardContent,
+        MatCardHeader,
+        MatCardImage,
+        MatCardSubtitle,
+        MatCardTitle,
+        MatSelect,
+        MatOption,
     ],
     providers: [
         provideAnimationsAsync(),

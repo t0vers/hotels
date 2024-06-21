@@ -5,11 +5,14 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {environment} from "../../../environment";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {ICategory} from "../interfaces/category.interface";
+import {IRoom} from "../interfaces/room.interface";
 
 @Injectable()
 export class AdminService {
     private _bookings$: BehaviorSubject<IAdminBooking[]> = new BehaviorSubject<IAdminBooking[]>([]);
     private _categories$: BehaviorSubject<ICategory[]> = new BehaviorSubject<ICategory[]>([]);
+    private _rooms$: BehaviorSubject<IRoom[]> = new BehaviorSubject<IRoom[]>([]);
+
     private _destroyRef: DestroyRef = inject(DestroyRef)
 
     public get bookings(): Observable<IAdminBooking[]> {
@@ -18,6 +21,10 @@ export class AdminService {
 
     public get categories(): Observable<ICategory[]> {
         return this._categories$.asObservable();
+    }
+
+    public get rooms(): Observable<IRoom[]> {
+        return this._rooms$.asObservable();
     }
 
     constructor(private _http: HttpClient) { }
@@ -92,6 +99,48 @@ export class AdminService {
             )
             .subscribe({
                 next: () => this.getCategories()
+            });
+    }
+
+    public getRooms(): void {
+        this._http.get<IRoom[]>(`${environment.apiAdminUrl}/rooms`, { headers: this.getHeaders() })
+            .pipe(
+                takeUntilDestroyed(this._destroyRef)
+            )
+            .subscribe({
+                next: (rooms: IRoom[]) => this._rooms$.next(rooms)
+            });
+    }
+
+    public createRoom(room: IRoom): void {
+        this._http.post(`${environment.apiAdminUrl}/rooms`, room, { headers: this.getHeaders() })
+            .pipe(
+                takeUntilDestroyed(this._destroyRef)
+            )
+            .subscribe({
+                next: () => this.getRooms()
+            });
+    }
+
+    public editRoom(room: IRoom): void {
+        this._http.put(`${environment.apiAdminUrl}/rooms/${room.id}`, {
+            ...room
+        }, { headers: this.getHeaders() })
+            .pipe(
+                takeUntilDestroyed(this._destroyRef)
+            )
+            .subscribe({
+                next: () => this.getRooms()
+            });
+    }
+
+    public deleteRoom(id: number): void {
+        this._http.delete(`${environment.apiAdminUrl}/rooms/${id}`, { headers: this.getHeaders() })
+            .pipe(
+                takeUntilDestroyed(this._destroyRef)
+            )
+            .subscribe({
+                next: () => this.getRooms()
             });
     }
 }
