@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import {Injectable, OnInit} from "@angular/core";
 import {CanActivate, Router} from "@angular/router";
 import {AuthService} from "../services/auth.service";
 import {map, Observable, take} from "rxjs";
@@ -7,14 +7,16 @@ import {map, Observable, take} from "rxjs";
     providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-    constructor(private _authService: AuthService, private _router: Router) { }
+    constructor(private _authService: AuthService, private _router: Router) {
+        // console.log('инициалаз')
+    }
 
     canActivate(): Observable<boolean> {
+        this._authService.initUser();
         return this._authService.user.pipe(
             take(1),
             map(user => {
-                console.log('User in AuthGuard:', user);
-                if (user && user.role_id === 2) {
+                if (user) {
                     return true;
                 } else {
                     this._router.navigate(['/catalog']);
@@ -24,3 +26,4 @@ export class AuthGuard implements CanActivate {
         );
     }
 }
+

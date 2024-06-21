@@ -1,0 +1,24 @@
+<mat-card class="example-card" appearance="outlined">
+    <mat-card-header>
+        <img mat-card-image [src]="room.images[0]" [alt]="'photo of ' + room.title">
+        <mat-card-title style="color: #ffabf3;">{{room.title}}</mat-card-title>
+        <mat-card-subtitle style="color: gold">{{room.category!.value}}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <p>
+            {{room.description}}
+        </p>
+        <p>
+            <span style="color: #ffabf3">Цена за сутки:</span> {{room.price}} RUB
+        </p>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-stroked-button color="accent" (click)="editRoom()">
+            Изменить
+        </button>
+        <button mat-stroked-button color="warn">
+            Удалить
+        </button>
+    </mat-card-actions>
+</mat-card>

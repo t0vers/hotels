@@ -2,18 +2,18 @@
     <h1>
         Регистрация
     </h1>
-    <form class="login__form">
+    <form [formGroup]="registerForm" class="login__form">
+        <mat-form-field>
+            <mat-label>Введите имя пользователя</mat-label>
+            <input formControlName="username" matInput required>
+        </mat-form-field>
         <mat-form-field>
             <mat-label>Введите email</mat-label>
-            <input matInput type="email" required>
+            <input formControlName="email" matInput type="email" required>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Введите пароль</mat-label>
-            <input matInput type="password" required>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Повторите пароль</mat-label>
-            <input matInput type="password" required>
+            <input formControlName="password" matInput type="password" required>
         </mat-form-field>
         <button mat-flat-button color="primary" (click)="submit()">Зарегистрироваться</button>
         <div class="login__form-actions">

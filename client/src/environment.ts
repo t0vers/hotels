@@ -5,7 +5,7 @@ interface IEnvironment {
 }
 
 export const environment: IEnvironment = {
-    apiUsersUrl: 'http://localhost:8000',
-    apiCatalogUrl: 'http://localhost:8001',
-    apiAdminUrl: 'http://localhost:8002'
+    apiUsersUrl: 'http://158.160.142.88',
+    apiCatalogUrl: 'http://158.160.142.88',
+    apiAdminUrl: 'http://158.160.142.88/api/admin'
 }

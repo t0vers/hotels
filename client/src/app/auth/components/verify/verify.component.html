@@ -1,0 +1,18 @@
+<div class="login">
+    <h1>
+        Подтверждение
+    </h1>
+    <div class="login__form">
+        <p>
+            На ваш Email было отправлено сообщение с верификационным кодом, пожалуйста, вставьте его в поле ниже
+        </p>
+        <mat-form-field>
+            <mat-label>Введите код верификации</mat-label>
+            <input [formControl]="token" matInput required>
+        </mat-form-field>
+        <button mat-flat-button color="primary" (click)="submit()">
+            Подтвердить
+        </button>
+    </div>
+</div>
+

@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from "@angular/core";
 import {MatButton, MatMiniFabButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {MatMenuModule} from "@angular/material/menu";
 import {AuthService} from "../../services/auth.service";
 import {IUser} from "../../interfaces/user.interface";
@@ -28,13 +28,20 @@ export class HeaderComponent implements OnInit {
 
 
     constructor(
-        private _authService: AuthService
+        private _authService: AuthService,
+        private _router: Router
     ) { }
 
     public ngOnInit(): void {
-        this._authService.initUser();
         this.user$ = this._authService.user;
+        this._authService.initUser();
     }
 
-    protected readonly localStorage = localStorage;
+    public navigateToBookings(): void {
+        this._router.navigate(['/bookings']);
+    }
+
+    public logout(): void {
+        this._authService.logout();
+    }
 }

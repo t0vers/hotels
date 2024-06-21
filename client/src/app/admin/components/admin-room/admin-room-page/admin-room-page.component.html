@@ -1,0 +1,11 @@
+<div class="container">
+    <h2 style="margin-bottom: 30px;">
+        Номера
+    </h2>
+    <button (click)="createRoom()" style="margin-bottom: 20px;" mat-stroked-button color="accent">
+        Добавить номер
+    </button>
+    @for (room of rooms$ | async;track room) {
+        <app-admin-room [room]="room"/>
+    }
+</div>

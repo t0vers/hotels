@@ -1,12 +1,13 @@
 import {DestroyRef, inject, Injectable} from "@angular/core";
 import {BehaviorSubject, map, Observable} from "rxjs";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environment";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {IBookingRequest} from "../interfaces/requests/booking-request.interface";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarComponent} from "../components/snackbar/snackbar.component";
 import {IBooking} from "../interfaces/booking.interface";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class BookingService {
@@ -16,7 +17,8 @@ export class BookingService {
 
     constructor(
         private _http: HttpClient,
-        private _snackBar: MatSnackBar
+        private _snackBar: MatSnackBar,
+        private _router: Router
     ) { }
 
     private getHeaders(): HttpHeaders {
@@ -69,14 +71,22 @@ export class BookingService {
             )
             .subscribe({
                 next: (response: any) => {
-                    console.log('Response:', response);
                     this._snackBar.openFromComponent(SnackbarComponent, {
                         horizontalPosition: 'end',
                         verticalPosition: 'top',
                         duration: 3000,
                         data: response.detail ? response.detail : 'Номер успешно забронирован'
                     });
+                    this._router.navigate(['/bookings']);
                 },
+                error: (response: HttpErrorResponse) => {
+                    this._snackBar.openFromComponent(SnackbarComponent, {
+                        horizontalPosition: 'end',
+                        verticalPosition: 'top',
+                        duration: 3000,
+                        data: response.error.detail
+                    });
+                }
             });
     }
 }

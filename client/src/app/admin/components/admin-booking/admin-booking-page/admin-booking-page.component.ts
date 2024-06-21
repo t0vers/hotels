@@ -1,9 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from "@angular/core";
-import {BookingService} from "../../../core/services/booking.service";
-import {IBooking} from "../../../core/interfaces/booking.interface";
 import {Observable} from "rxjs";
-import {IAdminBooking} from "../../../core/interfaces/admin-booking.interface";
-import {AdminService} from "../../../core/services/admin.service";
+import {IAdminBooking} from "../../../../core/interfaces/admin-booking.interface";
+import {AdminService} from "../../../../core/services/admin.service";
 
 @Component({
     templateUrl: './admin-booking-page.component.html',

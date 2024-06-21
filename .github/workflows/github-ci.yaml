@@ -1,0 +1,63 @@
+name: Hotels Deploy
+on:
+    push:
+        branches:
+            - mastr
+jobs:
+    build_and_deploy:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v4
+        - name: Login to Yandex Cloud Container Registry
+          id: login-cr
+          uses: yc-actions/yc-cr-login@v2
+          with:
+            yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
+
+        - name: Build, tag, and push user image to Yandex Cloud Container Registry
+          env:
+            CR_REGISTRY: crpet88gcbdno9h2muos
+            CR_REPOSITORY: user
+            IMAGE_TAG: ${{ github.sha }}
+          run: |
+            cd user-service
+            docker build -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest .
+            docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
+            docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest
+        - name: Build, tag, and push catalog image to Yandex Cloud Container Registry
+          env:
+            CR_REGISTRY: crpet88gcbdno9h2muos
+            CR_REPOSITORY: catalog
+            IMAGE_TAG: ${{ github.sha }}
+          run: |
+            cd catalog-service
+            docker build -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest .
+            docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
+            docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest
+        - name: Build, tag, and push Admin image to Yandex Cloud Container Registry
+          env:
+              CR_REGISTRY: crpet88gcbdno9h2muos
+              CR_REPOSITORY: admin
+              IMAGE_TAG: ${{ github.sha }}
+          run: |
+              cd admin-service
+              docker build -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest .
+              docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
+              docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest
+        - name: Build, tag, and push frontend image to Yandex Cloud Container Registry
+          env:
+            CR_REGISTRY: crpet88gcbdno9h2muos
+            CR_REPOSITORY: client
+            IMAGE_TAG: ${{ github.sha }}
+          run: |
+            cd client
+            docker build -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest .
+            docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
+            docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest
+        - name: Deploy to Yandex
+          uses: appleboy/ssh-action@v1.0.3
+          with:
+            host: ${{ secrets.DEPLOY_HOST }}
+            username: ${{ secrets.DEPLOY_USER_NAME }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            script: ./update.sh

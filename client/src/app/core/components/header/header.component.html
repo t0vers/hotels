@@ -21,13 +21,13 @@
                 </a>
             </li>
         </ul>
-        @if (localStorage.getItem('token')) {
+        @if (user$ | async) {
             <button mat-mini-fab [matMenuTriggerFor]="menu" class="header__profile">
                 <mat-icon>supervised_user_circle</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item routerLink="/bookings">Мои бронирования</button>
-                <button mat-menu-item>Выход</button>
+                <button mat-menu-item (click)="navigateToBookings()">Мои бронирования</button>
+                <button mat-menu-item (click)="logout()">Выход</button>
             </mat-menu>
         } @else {
             <button mat-flat-button color="accent" routerLink="/auth/login">

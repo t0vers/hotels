@@ -17,6 +17,4 @@ export class BookingPageComponent implements OnInit {
         this._bookingService.getUserBookings();
         this.bookings$ = this._bookingService.userBookings;
     }
-
-    protected readonly of = of;
 }

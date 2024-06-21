@@ -9,7 +9,6 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 
 from config import SQLALCHEMY_DATABASE_URL
 from models.user import Role
-from pydantic import BaseModel
 
 Base = declarative_base()
 
@@ -30,16 +29,6 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     is_active: bool = Column(Boolean, default=True, nullable=False)
     is_superuser: bool = Column(Boolean, default=False, nullable=False)
     is_verified: bool = Column(Boolean, default=False, nullable=False)
-
-
-class UserRead(BaseModel):
-    id: int
-    email: str
-    username: str
-    role_id: int
-
-    class Config:
-        orm_mode: True
 
 
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
