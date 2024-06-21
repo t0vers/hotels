@@ -8,7 +8,7 @@ import {AdminCategoryDialogComponent} from "../admin-category-dialog/admin-categ
 @Component({
     templateUrl: './admin-category-page.component.html',
     styleUrls: ['./admin-category-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminCategoryPageComponent implements OnInit {
     public categories$!: Observable<ICategory[]>;

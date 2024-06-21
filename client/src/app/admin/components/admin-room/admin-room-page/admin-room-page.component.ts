@@ -8,7 +8,7 @@ import {AdminRoomDialog} from "../admin-room-dialog/admin-room-dialog.component"
 @Component({
     templateUrl: './admin-room-page.component.html',
     styleUrls: ['./admin-room-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminRoomPageComponent implements OnInit {
     public rooms$!: Observable<IRoom[]>

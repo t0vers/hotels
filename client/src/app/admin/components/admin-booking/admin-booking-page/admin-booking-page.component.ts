@@ -6,7 +6,7 @@ import {AdminService} from "../../../../core/services/admin.service";
 @Component({
     templateUrl: './admin-booking-page.component.html',
     styleUrls: ['./admin-booking-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminBookingPageComponent implements OnInit {
     public bookings$!: Observable<IAdminBooking[]>;

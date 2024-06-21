@@ -1,9 +1,10 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from "@angular/core";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, Validators} from "@angular/forms";
 import {AdminService} from "../../../../core/services/admin.service";
 import {ICategory} from "../../../../core/interfaces/category.interface";
 import {Observable} from "rxjs";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 export interface DialogData {
     id?: number;
@@ -18,7 +19,7 @@ export interface DialogData {
 @Component({
     templateUrl: './admin-room-dialog.component.html',
     styleUrls: ['./admin-room-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminRoomDialog implements OnInit {
     public categories$!: Observable<ICategory[]>;
@@ -30,6 +31,7 @@ export class AdminRoomDialog implements OnInit {
     public controlImages = new FormControl<string>('', Validators.required);
 
     public readonly data: DialogData = inject<DialogData>(MAT_DIALOG_DATA);
+    private _destroyRef: DestroyRef = inject(DestroyRef)
     private readonly _dialogRef = inject(MatDialogRef<AdminRoomDialog>);
 
     constructor(private _adminService: AdminService) { }
@@ -72,5 +74,6 @@ export class AdminRoomDialog implements OnInit {
 
     public closeDialog(): void {
         this._dialogRef.close();
+        location.reload();
     }
 }

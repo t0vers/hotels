@@ -8,7 +8,7 @@ import {AdminRoomDialog} from "../admin-room-dialog/admin-room-dialog.component"
     selector: 'app-admin-room',
     templateUrl: './admin-room.component.html',
     styleUrls: ['./admin-room.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminRoomComponent {
     @Input({

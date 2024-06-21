@@ -4,13 +4,13 @@
         class="header__logo"
         alt="logo"
     >
-    <button mat-raised-button color="primary" routerLink="/admin/rooms">
+    <button mat-raised-button color="primary" (click)="navigateToRooms()">
         Номера
     </button>
-    <button mat-raised-button color="primary" routerLink="/admin/categories">
+    <button mat-raised-button color="primary" (click)="navigateToCategories()">
         Категории номеров
     </button>
-    <button mat-raised-button color="primary" routerLink="/admin/bookings">
+    <button mat-raised-button color="primary" (click)="navigateToBookings()">
         Бронирования
     </button>
 </div>

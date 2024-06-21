@@ -9,7 +9,7 @@ import {AdminCategoryDialogComponent} from "../admin-category-dialog/admin-categ
     selector: 'app-category-table',
     templateUrl: './admin-category-table.component.html',
     styleUrls: ['./admin-category-table.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminCategoryTableComponent {
     @Input({

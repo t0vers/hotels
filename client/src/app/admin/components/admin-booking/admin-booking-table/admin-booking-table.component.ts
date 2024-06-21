@@ -6,7 +6,7 @@ import {AdminService} from "../../../../core/services/admin.service";
     selector: 'app-bookings-table',
     templateUrl: './admin-booking-table.component.html',
     styleUrls: ['./admin-booking-table.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminBookingTableComponent {
     @Input({
