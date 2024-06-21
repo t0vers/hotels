@@ -17,10 +17,8 @@ export class AuthGuard implements CanActivate {
             take(1),
             map(user => {
                 if (user) {
-                    console.log('Пользователь авторизован');
                     return true;
                 } else {
-                    console.log('Пользователь не авторизован, перенаправление на каталог');
                     this._router.navigate(['/catalog']);
                     return false;
                 }
